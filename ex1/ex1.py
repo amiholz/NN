@@ -2,8 +2,7 @@ from __future__ import absolute_import, division, print_function, unicode_litera
 
 import tensorflow as tf
 
-
-from tensorflow.keras.layers import Dense, Flatten, Conv2D
+from tensorflow.keras.layers import Dense, Flatten, Conv2D, MaxPooling2D
 from tensorflow.keras import Model
 
 mnist = tf.keras.datasets.mnist
@@ -25,19 +24,26 @@ test_ds = tf.data.Dataset.from_tensor_slices((x_test, y_test)).batch(32)
 class MyModel(Model):
     def __init__(self):
         super(MyModel, self).__init__()
-        self.conv1 = Conv2D(16, 3, activation='relu')
+        self.conv1 = Conv2D(32, 5, activation='relu')
+        self.conv2 = Conv2D(64, 5, activation='relu')
+        self.max_pooling1 = MaxPooling2D()
+        self.max_pooling2 = MaxPooling2D()
         self.flatten = Flatten()
-        self.d1 = Dense(16, activation='relu')  # kernel_initializer='random_normal'
+        self.d1 = Dense(1024, activation='relu')  # kernel_initializer='random_normal'
         self.d2 = Dense(10, activation='softmax')
     
     def call(self, x):
         x = self.conv1(x)
+        x = self.max_pooling1(x)
+        x = self.conv2(x)
+        x = self.max_pooling2(x)
         x = self.flatten(x)
         x = self.d1(x)
         return self.d2(x)
 
 # Create an instance of the model
 model = MyModel()
+
 
 loss_object = tf.keras.losses.SparseCategoricalCrossentropy()
 
@@ -70,7 +76,7 @@ def test_step(images, labels):
     test_loss(t_loss)
     test_accuracy(labels, predictions)
 
-EPOCHS = 3
+EPOCHS = 5
 
 for epoch in range(EPOCHS):
     for images, labels in train_ds:
