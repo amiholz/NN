@@ -1,0 +1,25 @@
+1.1
+each convolution layer is (((5*5)* in) + 1) * out
+so we have because we have 2 convolution layers is (((25 * 1) +1) * 32) + (((25 * 32) +1) * 64) = 52096
+the output of the second convolution layer is of shape (7, 7, 64) so have 3136 neurons.
+so the size of the fully connected layer is 3136 * 10 + 10 = 31370
+so all the network have 83466 free parameters
+
+
+3.1.1
+in our shallow network there is one convolution layer with 3 output channel and one fully connected layer with 10
+neurons output. so as like as q. 1.1
+the convolution layer have ((25*1) + 1) * 3 = 78 free parameters
+the fully connected layer have (14*14*3) * 10 + 10 = 5890 free parameters
+so all the network have 5968 free parameters
+
+3.2.1
+in our minimal network there is two convolution layers.
+the first with 16 output channels the second with 8 output channels and the fully connected layer with 10
+neurons output.
+so as like as q. 1.1
+the first convolution layer have ((25*1) + 1) * 3 = 78 free parameters
+the first convolution layer have ((25*3) + 1) * 6 = 456 free parameters
+the fully connected layer have (7*7*6) * 10 + 10 = 2950 free parameters
+so all the network have 3484 free parameters
+
